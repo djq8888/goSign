@@ -16,6 +16,8 @@ func main() {
 	r.GET("/home", home)
 	//获取打卡记录
 	r.GET("/sign", sign)
+	//下班
+	r.GET("/leave", leave)
 
 	r.Run(":8080") // listen and serve on 0.0.0.0:8080
 }
