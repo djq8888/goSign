@@ -1,7 +1,6 @@
 var localIP = "127.0.0.1"
 
 function sign() {
-    alert("打卡成功！")
     var name = document.getElementById('name').value
     if (name == "")
     {
@@ -9,6 +8,13 @@ function sign() {
         alert("还没输入名字呢!");
         return false
     }
+    if (name[0] == " ")
+    {
+        document.getElementById('name').focus();
+        alert("名字不能以空格开头!");
+        return false
+    }
+    alert("打卡成功！")
     var url = "http://"+localIP+":8080/sign?name="+name;
     var xhr=new XMLHttpRequest();
     xhr.onreadystatechange=function () {
