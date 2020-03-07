@@ -15,6 +15,10 @@ func home(c *gin.Context) {
 
 func sign(c *gin.Context) {
 	name := c.Query("name")
+	if name == "" {
+		c.String(http.StatusBadRequest, "illegal name!")
+		return
+	}
 	data, _ := ioutil.ReadFile("record")
 	startTime := time.Now().Format("2006-01-02 15:04:05")
 	record := name + "已于" + startTime + "打卡" + "\r\n" + string(data)
@@ -25,6 +29,10 @@ func sign(c *gin.Context) {
 
 func leave(c *gin.Context) {
 	name := c.Query("name")
+	if name == "" {
+		c.String(http.StatusBadRequest, "illegal name!")
+		return
+	}
 	data, _ := ioutil.ReadFile("record")
 	leavaTime := time.Now()
 	record := name + "已于" + leavaTime.Format("2006-01-02 15:04:05") + "下班,"
