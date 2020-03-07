@@ -14,12 +14,17 @@ function sign() {
         alert("名字不能以空格开头!");
         return false
     }
-    alert("打卡成功！")
     var url = "http://"+localIP+":8080/sign?name="+name;
     var xhr=new XMLHttpRequest();
     xhr.onreadystatechange=function () {
         if (xhr.readyState==4){
-            document.getElementById("showBox").innerHTML = xhr.responseText;
+            var res = xhr.responseText;
+            if( res == "error" ){
+                alert("上班失败，你忘了点下班了吧！");
+                return;
+            }
+            alert("打卡成功！")
+            document.getElementById("showBox").innerHTML = res;
         }
     };
     xhr.open('get',url);
@@ -40,12 +45,17 @@ function leave() {
         alert("名字不能以空格开头!");
         return false
     }
-    alert("下班成功！")
     var url = "http://"+localIP+":8080/leave?name="+name;
     var xhr=new XMLHttpRequest();
     xhr.onreadystatechange=function () {
         if (xhr.readyState==4){
-            document.getElementById("showBox").innerHTML = xhr.responseText;
+            var res = xhr.responseText;
+            if( res == "error" ){
+                alert("下班失败，未找到上班记录！");
+                return;
+            }
+            alert("下班成功！");
+            document.getElementById("showBox").innerHTML = res;
         }
     };
     xhr.open('get',url);

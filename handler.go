@@ -19,6 +19,10 @@ func sign(c *gin.Context) {
 		c.String(http.StatusBadRequest, "illegal name!")
 		return
 	}
+	if _, ok := signTime[name]; ok {
+		c.String(http.StatusOK, "error")
+		return
+	}
 	data, _ := ioutil.ReadFile("record")
 	startTime := time.Now().Format("2006-01-02 15:04:05")
 	record := name + "已于" + startTime + "打卡" + "\r\n" + string(data)
@@ -43,7 +47,9 @@ func leave(c *gin.Context) {
 		workTime = "工作时长:" + leavaTime.Sub(startTime).String()
 		delete(signTime, name)
 	} else {
-		workTime = "工作时长获取失败:未找到打卡时间！"
+		c.String(http.StatusOK, "error")
+		return
+		//workTime = "工作时长获取失败:未找到打卡时间！"
 	}
 	record += workTime + "\r\n" + string(data)
 	ioutil.WriteFile("record", []byte(record), 0666)
